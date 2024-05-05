@@ -1,5 +1,8 @@
+import { ref, update } from 'firebase/database';
+import { db } from '../../firebase';
 import './Type1.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
 
 function DeviceCard1(props) {
     const {device, imgOn, imgOff} = props;
@@ -10,7 +13,24 @@ function DeviceCard1(props) {
     const handleOn = (e) => {
         const toggle = e.target;
         setIsOn(toggle.checked);
+
+        
     }
+
+    // Write data to Firebase 
+    useEffect(() => {
+        if (device == "Door") {
+            update(ref(db,'/devices/door/door-1'), {
+                state: isOn
+            });
+        }
+        else if (device == "Light") {
+            update(ref(db,'/devices/light/light-1'), {
+                state: isOn
+            });
+        }
+    }, [isOn]);
+
 
     
 

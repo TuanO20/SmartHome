@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import './Type2.scss';
+import { ref, update } from "firebase/database";
+import { db } from "../../firebase";
 
 
 function DeviceCard2(props) {
@@ -20,6 +22,13 @@ function DeviceCard2(props) {
 
         setLevelFan(level);
     }   
+
+    // Write data to Firebase 
+    useEffect(() => {
+        update(ref(db,'/devices/fan/fan-1'), {
+            level: levelFan
+        });
+    }, [levelFan]);
 
     return (
         <>
