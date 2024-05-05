@@ -1,0 +1,62 @@
+h3 {
+    color: red;
+    font-size: 30px;
+    text-align: center;
+    margin: 50px 0;
+}
+
+.deviceList {
+    //padding: 60px;
+    display: flex;
+    flex-direction: column;
+
+    .add-new {
+        color: white;
+        margin-left: 61vw;
+        margin-bottom: 20px;
+        font-size: 15px;
+        max-width: 110px;
+    
+        border-radius: 20px;
+        
+        i {
+            margin-right: 7px;
+        }
+    }
+    
+    table {
+        width: 60vw;
+        margin: auto;
+        border: 1px solid black;
+        border-collapse: collapse;
+    
+        th,td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+        }
+    
+        thead {
+            background-color: green;
+            th {
+                color: yellow;
+                font-weight: 400;
+            }
+        }
+    
+        tbody {
+            .icon {
+                div {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+                i {
+                    cursor: pointer;
+                    margin-right: 10px;
+                }
+            }
+        }
+    }
+}
+
