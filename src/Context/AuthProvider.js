@@ -15,7 +15,6 @@ function AuthProvider({ children }) {
     const unsubscribed = onAuthStateChanged(auth, (user) => {
       setIsLoading(false);
       if (user) {
-        
         const { displayName, email, uid, photoURL } = user;
         setAuthUser({ displayName, email, uid, photoURL });
 

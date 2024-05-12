@@ -25,7 +25,7 @@ function DeviceCard2(props) {
 
     // Write data to Firebase 
     useEffect(() => {
-        update(ref(db,'/devices/fan/fan-1'), {
+        update(ref(db,'/fan/fan-1'), {
             level: levelFan
         });
     }, [levelFan]);

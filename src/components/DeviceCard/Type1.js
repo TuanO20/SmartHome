@@ -19,13 +19,24 @@ function DeviceCard1(props) {
 
     // Write data to Firebase 
     useEffect(() => {
+        // if (device == "Door") {
+        //     update(ref(db,'/door/door-1'), {
+        //         state: isOn
+        //     });
+        // }
+        // else if (device == "Light") {
+        //     update(ref(db,'/light/light-1'), {
+        //         state: isOn
+        //     });
+        // }
+
         if (device == "Door") {
-            update(ref(db,'/devices/door/door-1'), {
+            update(ref(db,'/door/door-1'), {
                 state: isOn
             });
         }
         else if (device == "Light") {
-            update(ref(db,'/devices/light/light-1'), {
+            update(ref(db,'/light/light-1'), {
                 state: isOn
             });
         }
