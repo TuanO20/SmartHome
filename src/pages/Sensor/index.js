@@ -1,8 +1,8 @@
-import { Chart as ChartJS, CategoryScale, LineElement, PointElement, LinearScale, Title, defaults } from "chart.js";
+import { Chart as ChartJS, CategoryScale, LineElement, PointElement, LinearScale, Title, defaults, Tooltip} from "chart.js";
 import { onValue, ref } from "firebase/database";
 import { db } from "../../firebase";
 import { Line } from "react-chartjs-2";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 
@@ -14,26 +14,26 @@ function Sensor() {
     // defaults.plugins.title.font.size = "15px";
     // defaults.plugins.title.color = "black";
 
-    ChartJS.register(CategoryScale, LineElement, PointElement, LinearScale, Title);
+    ChartJS.register(CategoryScale, LineElement, PointElement, LinearScale, Title, Tooltip);
 
-    var tempChart = document.getElementsByTagName("canvas")[0];
-    var humidChart = document.getElementsByTagName("canvas")[1];
-    //console.log(chart);
+    const [data, setData] = useState([]);
 
-    onValue(ref(db, '/sensor/sensor-1'), (snapshot) => {
-        // Convert Object into array
-        var temp = Object.values(snapshot.val());
-        var newValue = temp[temp.length - 1];
+    useEffect(() => {
+        const unsubcribed = onValue(ref(db, '/sensor/sensor-1'), (snapshot) => {
+            // Convert Object into array
+            var temp = Object.values(snapshot.val());
+            if (temp.length > 15){
+                temp = temp.slice(temp.length - 15, temp.length);
+                console.log(temp);
+            }
+                
+            setData(temp);  
+        });
 
-        var timeStamp = newValue.timeStamp;
-        var tempValue = newValue.tempValue;
-        var humidValue = newValue.humidValue;
-        
-        // tempChart.data.datasets.push(tempValue);
-        // tempChart.update();
-        console.log(tempChart);
-        
-    });
+        return () => unsubcribed();
+    },[]);
+
+    //console.log(data);
 
     return (
         <>
@@ -43,11 +43,16 @@ function Sensor() {
                 <div className="tempChart" style={{width: "40%"}}>
                     <Line
                         data={{
-                            labels: ["10:20", "10:21", "10:22", "10:23", "10:24", "10:25"],
+                            //labels: ["10:20", "10:21", "10:22", "10:23", "10:24", "10:25"],
+                            labels: data.map((item) => {
+                                var pos = item.timeStamp.search(" ");
+                                return item.timeStamp.substring(0,pos);
+                            }),
                             datasets: [
                                 {
                                     label: "Temperature",
-                                    data: [20, 25, 30, 27, 23, 50],
+                                    //data: [20, 25, 30, 27, 23, 50],
+                                    data: data.map((item) => item.tempValue),
                                     borderColor: 'rgba(255, 99, 132, 1)',
                                     pointStyle: "circle",
                                     pointRadius: 5,
@@ -82,7 +87,7 @@ function Sensor() {
                                         color: "darkblue"
                                     },
                                     suggestedMin: 0,
-                                    suggestedMax: 60
+                                    suggestedMax: 50
                                 }
                             }
                         }}
@@ -92,11 +97,16 @@ function Sensor() {
                 <div className="humidChart" style={{width: "40%"}}>
                     <Line
                             data={{
-                                labels: ["10:20", "10:21", "10:22", "10:23", "10:24", "10:25"],
+                                //labels: ["10:20", "10:21", "10:22", "10:23", "10:24", "10:25"],
+                                labels: data.map((item) => {
+                                    var pos = item.timeStamp.search(" ");
+                                    return item.timeStamp.substring(0,pos);
+                                }),
                                 datasets: [
                                     {
                                         label: "Temperature",
-                                        data: [40, 75, 73, 80, 77, 75],
+                                        //data: [40, 75, 73, 80, 77, 75],
+                                        data: data.map((item) => item.humidValue),
                                         borderColor: 'rgba(255, 99, 132, 1)',
                                         pointStyle: "circle",
                                         pointRadius: 5,
