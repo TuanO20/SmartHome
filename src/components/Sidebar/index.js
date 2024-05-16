@@ -36,7 +36,7 @@ function Sidebar() {
 
                         <NavLink to="/dashboard/sensor">
                             <li>
-                                <i class="fa-solid fa-temperature-three-quarters"></i>
+                                <i class="fa-solid fa-temperature-three-quarters" style={{textAlign: "center"}}></i>
                                 <span>Temperature & Humidity </span>
                             </li>
                         </NavLink>
@@ -45,9 +45,9 @@ function Sidebar() {
 
                 <div className='sidebar__social'>
                     <h5>Follow us</h5>
-                    <i class="fa-brands fa-facebook fa-lg"></i>
-                    <i class="fa-brands fa-square-instagram fa-lg"></i>
-                    <i class="fa-brands fa-square-x-twitter fa-lg"></i>
+                    <a href="https://www.facebook.com/Google"><i class="fa-brands fa-facebook fa-lg"></i></a>
+                    <a href='https://www.instagram.com/google/'><i class="fa-brands fa-square-instagram fa-lg"></i></a>
+                    <a href='https://twitter.com/Google'><i class="fa-brands fa-square-x-twitter fa-lg"></i></a>
                     
                 </div>
             </div>

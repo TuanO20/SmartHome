@@ -38,7 +38,7 @@ function Sensor() {
     return (
         <>
             <h3>Temperature & Humidity</h3>
-            <div className="container-sensors" style={{display: "flex", justifyContent: "space-around", marginTop: "80px", marginLeft: "30px"}}>
+            <div className="container-sensors" style={{display: "flex", justifyContent: "space-around", marginTop: "100px", marginLeft: "30px"}}>
                 
                 <div className="tempChart" style={{width: "40%"}}>
                     <Line

@@ -42,6 +42,7 @@ $hover-color: #497886;
             list-style-type: none;
 
             a {
+                height: 20%;
                 color: grey;
 
                 &.active {
@@ -50,6 +51,7 @@ $hover-color: #497886;
                 }
 
                 li {
+                    font-size: 17px;
                     font-weight:600;
                     padding: 10px;
                     margin-bottom: 20px;
@@ -62,7 +64,9 @@ $hover-color: #497886;
                     
                     i {
                         width: 18px;
-                        margin-right: 15px;
+                        margin-right: 20px;
+
+                        
                     }
                 }
             }
@@ -72,15 +76,22 @@ $hover-color: #497886;
     }
 
     &__social {
-        margin-top: 170px;
+        margin-top: 200px;
         text-align: center;
         h5 {
             margin-left: -10px;
             margin-bottom: 10px;
         }
-        i {
-            margin-right: 20px;
-            cursor: pointer;
+        a {
+            color: grey;
+            i {
+                margin-right: 20px;
+                cursor: pointer;
+    
+                &:hover {
+                    color: #0f8ff2;
+                }
+            }
         }
     }
 }
