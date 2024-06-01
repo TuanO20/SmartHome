@@ -5,8 +5,6 @@ import { Line } from "react-chartjs-2";
 import { useEffect, useState } from "react";
 
 
-
-
 function Sensor() {
     // defaults.responsive = true;
     // defaults.plugins.title.display = true;
@@ -22,6 +20,8 @@ function Sensor() {
         const unsubcribed = onValue(ref(db, '/sensor/sensor-1'), (snapshot) => {
             // Convert Object into array
             var temp = Object.values(snapshot.val());
+
+            // Get the last 15 elements 
             if (temp.length > 15){
                 temp = temp.slice(temp.length - 15, temp.length);
                 console.log(temp);

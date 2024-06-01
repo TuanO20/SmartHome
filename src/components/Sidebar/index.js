@@ -48,7 +48,6 @@ function Sidebar() {
                     <a href="https://www.facebook.com/Google"><i class="fa-brands fa-facebook fa-lg"></i></a>
                     <a href='https://www.instagram.com/google/'><i class="fa-brands fa-square-instagram fa-lg"></i></a>
                     <a href='https://twitter.com/Google'><i class="fa-brands fa-square-x-twitter fa-lg"></i></a>
-                    
                 </div>
             </div>
         </>

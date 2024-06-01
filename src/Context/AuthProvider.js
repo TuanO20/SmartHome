@@ -23,12 +23,18 @@ function AuthProvider({ children }) {
       }
     });
 
-    return () => unsubscribed();
+
+
+    return () => {
+      console.log("Done");
+      unsubscribed();
+      
+    }
   }, []);
 
   useEffect(() => {
     if (authUser.uid) {
-      console.log("User logged in:", authUser); 
+      //console.log("User logged in:", authUser); 
       navigate('/dashboard'); 
     }
   }, [authUser]);

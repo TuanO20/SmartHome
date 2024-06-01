@@ -3,12 +3,14 @@ import './Header.scss';
 import { AuthContext } from '../../Context/AuthProvider';
 import { auth } from '../../firebase';
 
+
+
 function Header() {
     const [isShowing, setIsShowing] = useState(false);
     const data = useContext(AuthContext);
 
     // Display avatar or not
-    console.log(data.authUser.photoURL);
+    //console.log(data.authUser.photoURL);
 
 
     // Split username from email 
@@ -44,7 +46,7 @@ function Header() {
             <div className="header">
                 <div className='header__user'>
                     <div className='header__usericon'>
-                        {data.authUser.photoURL ? <img src={data.authUser.photoURL}></img> : <i class="fa-regular fa-circle-user fa-xl"></i>}
+                        {data.authUser.photoURL ? <img src={data.authUser.photoURL} alt="Avatar"></img> : <i class="fa-regular fa-circle-user fa-xl"></i>}
                     </div>
 
                     <div className='header__username' onClick={handleShowHeaderList}>
