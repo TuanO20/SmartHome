@@ -2,14 +2,21 @@ import { onValue, ref, update } from 'firebase/database';
 import { db } from '../../firebase';
 import './Type1.scss';
 import { useEffect, useState } from 'react';
+import SetTimerBtn from '../SetTimerBtn';
+import RemoveTimerBtn from '../RemoveTimerBtn';
 
 function DeviceCard1(props) {
     const { device, imgOn, imgOff, initValue } = props;
     const [isOn, setIsOn] = useState(initValue);
+    const [isTimer, setIsTimer] = useState(false);
+    const [time, setTime] = useState();
+    const [timeNow, setTimeNow] = useState("");
 
     useEffect(() => {
         setIsOn(initValue);
     }, [initValue]);
+
+    
 
     const handleOn = (e) => {
         const toggle = e.target;
@@ -37,20 +44,63 @@ function DeviceCard1(props) {
         // Sync the state with Firebase
         if (device === "Door") {
             const doorRef = ref(db, '/door/door-1/state');
-            onValue(doorRef, (snapshot) => {
+            let listener = onValue(doorRef, (snapshot) => {
                 const value = snapshot.val();
                 setIsOn(value);
                 localStorage.setItem('doorState', JSON.stringify(value));
             });
+            return () => listener();
+
+
         } else if (device === "Light") {
             const lightRef = ref(db, '/light/light-1/state');
-            onValue(lightRef, (snapshot) => {
+            let listener = onValue(lightRef, (snapshot) => {
                 const value = snapshot.val();
                 setIsOn(value);
                 localStorage.setItem('lightState', JSON.stringify(value));
             });
+
+            return () => listener();
+
         }
     }, [device]);
+
+    useEffect(() => {
+        let listener = onValue(ref(db,'light/light-1'), (snapshot) => {
+            var time = snapshot.val().timeTurnOn;
+            var timer = snapshot.val().isSetTime;
+            
+            if (timer != isTimer && timer != null) {
+                setTime(time);
+                setIsTimer(timer);
+            }
+        })
+
+        return () => listener();
+    }, [isTimer]);
+
+
+    // Call API to know the current time
+    useEffect(() => {
+        const checkTurnOnLight = setInterval(() => {
+            fetch('https://worldtimeapi.org/api/timezone/Asia/Ho_Chi_Minh')
+                .then(res => res.json())
+                .then(data => setTimeNow(data.datetime.substring(11,19)))
+                .catch(err => console.log(err));
+
+            
+
+        }, 1000);
+
+        return () => clearInterval(checkTurnOnLight);
+    }, []);
+
+
+    if ((time + ":00") == timeNow && isTimer) {
+        update(ref(db,'light/light-1'), {state: true});
+        console.log("Alert");
+
+    }
 
     return (
         <div className="card__container">
@@ -59,12 +109,28 @@ function DeviceCard1(props) {
                 <p>{device}</p>
             </div>
             <div className='card__bottom'>
-                {device === "Door" ? (isOn ? <div>UNLOCKED</div> : <div>LOCKED</div>) 
-                : (isOn ? <div>ON</div> : <div>OFF</div>)}
-                <label className="switch">
-                    <input type="checkbox" onChange={handleOn} checked={isOn} />
-                    <span className="slider round"></span>
-                </label>
+                <div className='card__bottom--main'>
+                    {device === "Door" ? (isOn ? <div>UNLOCKED</div> : <div>LOCKED</div>) 
+                    : (isOn ? <div>ON</div> : <div>OFF</div>)}
+                    <label className="switch">
+                        <input type="checkbox" onChange={handleOn} checked={isOn} />
+                        <span className="slider round"></span>
+                    </label>
+                </div>
+
+                {device === "Light" && 
+                (
+                    <div className='card__bottom--noti'>
+                        <div className='card__bottom--setTime'>
+                            <div>Set timer</div>
+                            <SetTimerBtn></SetTimerBtn>
+                            <RemoveTimerBtn></RemoveTimerBtn>
+                        </div>
+                        <div>Turn on at: {
+                            isTimer && time
+                        }</div>
+                    </div>
+                )}
             </div>
         </div>
     );

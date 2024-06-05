@@ -5,12 +5,12 @@ $transition-time: 0.4s;
 
 .card__container {
     width: 15vw;
-    height: 35vh;
+    height: 45vh;
     border: 3px solid grey;
     border-radius: 5px;
     
     .card__center {
-        height: 75%;
+        height: 60%;
         background-color: #F6F6F6;
         text-align: center;
         padding: 15px;
@@ -28,14 +28,17 @@ $transition-time: 0.4s;
     }
 
     .card__bottom {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        height: 25%;
+        height: 40%;
         background-color: white;
         padding: 10px;
-        .switch {
+
+
+        &--main {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          .switch {
             position: relative;
             display: inline-block;
             width: 48px;
@@ -90,5 +93,17 @@ $transition-time: 0.4s;
               border-radius: 50%;
             }
           }
+        }
+
+        &--noti {
+          margin-top: 20px;
+        }
+
+        &--setTime {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        
     }
 }

@@ -25,11 +25,7 @@ function AuthProvider({ children }) {
 
 
 
-    return () => {
-      console.log("Done");
-      unsubscribed();
-      
-    }
+    return () => unsubscribed();
   }, []);
 
   useEffect(() => {
