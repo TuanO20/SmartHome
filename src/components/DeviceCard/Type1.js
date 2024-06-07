@@ -12,6 +12,7 @@ function DeviceCard1(props) {
     const [time, setTime] = useState();
     const [timeNow, setTimeNow] = useState("");
 
+    // Initialize the value for isOn variable
     useEffect(() => {
         setIsOn(initValue);
     }, [initValue]);
@@ -65,14 +66,15 @@ function DeviceCard1(props) {
         }
     }, [device]);
 
+    // Update the variable time and isTimer
     useEffect(() => {
         let listener = onValue(ref(db,'light/light-1'), (snapshot) => {
-            var time = snapshot.val().timeTurnOn;
-            var timer = snapshot.val().isSetTime;
+            let timeSet = snapshot.val().timeTurnOn;
+            let timer = snapshot.val().isSetTime;
             
-            if (timer != isTimer && timer != null) {
-                setTime(time);
-                setIsTimer(timer);
+            if ((timer != isTimer && timer != null) || (time != timeSet)) {
+                setTime(timeSet);
+                setIsTimer(timer);     
             }
         })
 
@@ -82,25 +84,28 @@ function DeviceCard1(props) {
 
     // Call API to know the current time
     useEffect(() => {
-        const checkTurnOnLight = setInterval(() => {
+        const updateTimeNow = setInterval(() => {
             fetch('https://worldtimeapi.org/api/timezone/Asia/Ho_Chi_Minh')
                 .then(res => res.json())
                 .then(data => setTimeNow(data.datetime.substring(11,19)))
                 .catch(err => console.log(err));
 
             
-
         }, 1000);
 
-        return () => clearInterval(checkTurnOnLight);
+        return () => clearInterval(updateTimeNow);
     }, []);
 
 
     if ((time + ":00") == timeNow && isTimer) {
         update(ref(db,'light/light-1'), {state: true});
-        console.log("Alert");
-
+        //console.log("Alert");
     }
+
+    // if ((time + ":00") == timeNow && isTimer) {
+    //     update(ref(db,'light/light-1'), {state: true});
+    //     //console.log("Alert");
+    // }
 
     return (
         <div className="card__container">

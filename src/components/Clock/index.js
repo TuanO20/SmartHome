@@ -1,21 +1,32 @@
 import React, { useState, useEffect } from 'react';
 
 function Clock() {
-  const [time, setTime] = useState(new Date());
+  const [time, setTime] = useState('2024-06-07T00:00:00');
+
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setTime(new Date());
+  //   }, 1000);
+
+  //   return () => {
+  //     clearInterval(timer);
+  //   };
+  // }, []);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTime(new Date());
+    const clock = setInterval(() => {
+        fetch('https://worldtimeapi.org/api/timezone/Asia/Ho_Chi_Minh')
+            .then(res => res.json())
+            .then(data => setTime(data.datetime.substring(0,19)))
+            .catch(err => console.log(err));
     }, 1000);
 
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
+    return () => clearInterval(clock);
+}, []);
 
   // Formatting for both date and time
-  const date = time.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
-  const timeString = time.toLocaleTimeString('en-GB', { hour12: false }); // Use hour12: false for 24h
+  const date = time.substring(0,10);
+  const timeString = time.substring(11,19); 
 
   return (
     <div>

@@ -11,20 +11,23 @@ function SetTimerBtn() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleSave = () => {
-        var time = document.getElementById('timer').value;
+      var time = document.getElementById('timer').value;
+      
+      if (time) {
+        update(ref(db, 'light/light-1'), {
+          isSetTime: true,
+          timeTurnOn: time
+        });
+
+        alert("Set timer successfully");
+      }
+      else {
+        alert("Please enter your time");
         
-        if (time) {
-          update(ref(db, 'light/light-1'), {
-            isSetTime: true,
-            timeTurnOn: time
-          });
-
-          alert("Set timer successfully");
-        }
-        else alert("Please enter your time");
+      }
 
 
-        handleClose();
+      handleClose();
         
   }
 
